@@ -5,12 +5,15 @@ import { BrowserRouter as Router } from "react-router-dom"
 
 import "./index.css";
 import App from "./App";
+import { QuizProvider } from "../src/components/quiz"
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider>
       <Router>
-        <App />
+        <QuizProvider>
+          <App />
+        </QuizProvider>
       </Router>
     </ChakraProvider>
   </React.StrictMode>,

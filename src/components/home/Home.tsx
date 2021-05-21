@@ -2,9 +2,15 @@ import { Box, Flex, Text, Button, Link, useColorModeValue } from '@chakra-ui/rea
 
 import { Link as RouterLink } from "react-router-dom"
 
+import { useQuiz } from "../quiz"
+
 export default function Home(){
+    const { quizState } = useQuiz();
+    const { quizData } = quizState
 
     const jsBoxbg = useColorModeValue("yellow.300", "yellow.500")
+
+    console.log({ quizData })
 
     return (
       <Flex
@@ -29,7 +35,7 @@ export default function Home(){
             JavaScript Quiz
           </Text>
           <Text mb={3}>Difficulty: easy</Text>
-          <Link as={RouterLink} to="/quiz">
+          <Link as={RouterLink} to="/play-quiz" state={{ mode: "easy" }}>
             <Button>Play Quiz</Button>
           </Link>
         </Box>
