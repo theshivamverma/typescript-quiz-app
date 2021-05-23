@@ -19,8 +19,6 @@ export default function QuizQuestions({ setShowResults, setStartQuiz }: any) {
     (question) => question.category === quizCategory
   );
 
-  console.log(quizQuestions);
-
   const centerDivBg = useColorModeValue("gray.100", "gray.700");
   const nextBtnBg = useColorModeValue("gray.700", "gray.100");
   const nextBtnColor = useColorModeValue("gray.100", "gray.700");
@@ -64,9 +62,7 @@ export default function QuizQuestions({ setShowResults, setStartQuiz }: any) {
   }
 
   function checkForAnswer() {
-    console.log("called");
     if (optionClicked === quizQuestions[currentQuestion].correct_answer) {
-      console.log(optionClicked, quizQuestions[currentQuestion].correct_answer);
       setIsAnswerCorrect(true);
       quizDispatch({
         type: "INCREASE_QUIZ_SCORE",

@@ -14,7 +14,6 @@ export default function UserScoreboard() {
     }
   }, [user]);
 
-  console.log(user);
   return (
     <Flex w="100%" h="90vh" justify="center" align="center" direction="column">
       <Text fontSize="lg" mb="5">

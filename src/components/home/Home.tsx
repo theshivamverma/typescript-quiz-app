@@ -17,8 +17,6 @@ export default function Home() {
 
   const jsBoxbg1 = useColorModeValue("twitter.300", "");
 
-  console.log({ quizData });
-
   return (
     <Flex w="100%" h="90vh" align="center" justify="center" direction="column">
       <Text mb="4" fontSize={{ base: "1.2rem", xl: "2rem" }}>

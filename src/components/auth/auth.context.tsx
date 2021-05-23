@@ -55,7 +55,6 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>){
                 const { data } = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/user/${user?._id}/add-new-score`, {
                     scoreId: savedScoreData.savedScore._id
                 })
-                console.log(data, savedScoreData)
             }
         } catch (error) {
             console.log(error)

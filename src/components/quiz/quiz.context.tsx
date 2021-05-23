@@ -36,12 +36,10 @@ export function QuizProvider({ children }: PropsWithChildren<{}>) {
   }, []);
 
   async function getQuizData() {
-    console.log("called")
     try {
       const { status, data } = await axios.get(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/question`
       );
-      console.log(data)
       if(status === 200){
         dispatch({ type: "LOAD_DATA", payload: { data : data.questions } })
       }

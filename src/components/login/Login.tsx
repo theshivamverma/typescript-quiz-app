@@ -18,12 +18,10 @@ export default function Login(){
     const navigate = useNavigate()
     const { state } : any = useLocation()
 
-    console.log(state)
 
     login && navigate(state !== null && state?.from ? state.from : "/");
 
     async function loginClickHandler(username: string, password: string){
-        console.log(await loginUser(username, password))
         const { loginStatus, userId } = await loginUser(username, password);
         if (loginStatus) {
           setUserData(userId)
