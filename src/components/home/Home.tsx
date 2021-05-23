@@ -12,8 +12,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useQuiz } from "../quiz";
 
 export default function Home() {
-  const { quizState, quizDispatch } = useQuiz();
-  const { quizData } = quizState;
+  const { quizDispatch } = useQuiz();
 
   const jsBoxbg1 = useColorModeValue("twitter.300", "");
 
