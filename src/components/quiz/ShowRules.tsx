@@ -1,4 +1,4 @@
-import { Flex, useColorModeValue, Text, Box, Button } from "@chakra-ui/react";
+import { Flex, useColorModeValue, Text, Button } from "@chakra-ui/react";
 
 export default function ShowRules({ setShowRules, setStartQuiz } : any) {
 
@@ -9,8 +9,7 @@ export default function ShowRules({ setShowRules, setStartQuiz } : any) {
 
   return (
     <Flex
-      w="50%"
-      h="50%"
+      w={{ base: "90%", xl: "50%" }}
       bg={centerDivBg}
       borderRadius="xl"
       p={4}
@@ -22,23 +21,23 @@ export default function ShowRules({ setShowRules, setStartQuiz } : any) {
         Rules
       </Text>
       <br />
-      <Text fontSize="md" textAlign="center" mb={2}>
+      <Text fontSize={{ base: "sm", xl: "md" }} textAlign="center" mb={2}>
         {" "}
         1) This quiz contains 10 questions
       </Text>
-      <Text fontSize="md" textAlign="center" mb={2}>
+      <Text fontSize={{ base: "sm", xl: "md" }} textAlign="center" mb={2}>
         {" "}
-        2) Each coorect answer will get you 3 points.
+        2) Each correct answer will get you 3 points.
       </Text>
-      <Text fontSize="md" textAlign="center" mb={2}>
+      <Text fontSize={{ base: "sm", xl: "md" }} textAlign="center" mb={2}>
         {" "}
         3) Each wrong answer will have 1 negative point.
       </Text>
-      <Text fontSize="md" textAlign="center" mb={2}>
+      <Text fontSize={{ base: "sm", xl: "md" }} textAlign="center" mb={2}>
         {" "}
         4) There will be time limit of 30 seconds for each question.
       </Text>
-      <Text fontSize="md" textAlign="center" mb={2}>
+      <Text fontSize={{ base: "sm", xl: "md" }} textAlign="center" mb={2}>
         All the Best !!
       </Text>
       <Button
@@ -49,8 +48,8 @@ export default function ShowRules({ setShowRules, setStartQuiz } : any) {
         m={[3]}
         _hover={{ color: `${hoverBtnBgColor}` }}
         onClick={() => {
-            setStartQuiz(true)
-            setShowRules(false)
+          setStartQuiz(true);
+          setShowRules(false);
         }}
       >
         Start Quiz

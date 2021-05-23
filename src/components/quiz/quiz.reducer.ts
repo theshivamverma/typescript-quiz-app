@@ -35,6 +35,11 @@ export default function quizReducer(state: QuizContextStateType, action: ACTION_
                 },
                 userAnswers: []
             }
+        case "SET_QUIZ_CATEGORY": 
+            return {
+                ...state,
+                quizCategory: action.payload.category
+            }
         default:
             return state;
     }

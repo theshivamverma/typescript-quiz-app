@@ -3,7 +3,9 @@ export type QuizContextStateType = {
   quizData: QuizQuestion[];
   quizPoints: number;
   userAnswers: string | null [],
-  analytics: Analytics
+  analytics: Analytics,
+  quizCategory: string,
+  getQuizData: () => void
 };
 
 export type Analytics = {
@@ -36,3 +38,4 @@ export type ACTION_TYPE =
 | { type: "SKIP_QUESTION" }
 | { type: "RESET_DEFAULTS" }
 | { type: "RECORD_USER_ANSWERS", payload: { userAnswer: string | null } }
+| { type: "SET_QUIZ_CATEGORY", payload: { category: string } }

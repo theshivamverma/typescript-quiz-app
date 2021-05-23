@@ -4,7 +4,6 @@ import { QuizContextStateType } from "./quiz.types"
 import quizReducer from "./quiz.reducer"
 
 import axios from 'axios'
-import QuizQuestions from "./QuizQuestions";
 
 const initialState:QuizContextStateType = {
   quizData: [],
@@ -14,7 +13,9 @@ const initialState:QuizContextStateType = {
     correct: 0,
     wrong: 0,
     unattempted: 0
-  }
+  },
+  quizCategory: "",
+  getQuizData: () => null
 }
 
 const QuizContext =
@@ -35,6 +36,7 @@ export function QuizProvider({ children }: PropsWithChildren<{}>) {
   }, []);
 
   async function getQuizData() {
+    console.log("called")
     try {
       const { status, data } = await axios.get(
         `${process.env.REACT_APP_BACKEND_BASE_URL}/question`
