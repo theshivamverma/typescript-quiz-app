@@ -41,7 +41,7 @@ export function QuizProvider({ children }: PropsWithChildren<{}>) {
         `${process.env.REACT_APP_BACKEND_BASE_URL}/question`
       );
       if(status === 200){
-        dispatch({ type: "LOAD_DATA", payload: { data : data.questions } })
+        dispatch({ type: "LOAD_DATA", payload: { data: data.questions } });
       }
     } catch (error) {
       console.log(error);

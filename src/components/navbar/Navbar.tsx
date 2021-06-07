@@ -28,21 +28,34 @@ export default function Navbar(){
     return (
       <Flex bg={navbarbg} px={4} py={2} align="center" justify="space-between">
         <Flex
-          w={{ base: "45%", xl: "10%" }}
+          w={{ base: "60%", xl: "20%" }}
           justify="space-between"
           align="center"
         >
-          <Link as={RouterLink} to="/">
+          <Link fontSize={{ base: "xs", xl: "md" }} as={RouterLink} to="/">
             Home
           </Link>
           {login && (
-            <Link as={RouterLink} to="/scoreboard">
+            <Link
+              fontSize={{ base: "xs", xl: "md" }}
+              as={RouterLink}
+              to="/scoreboard"
+            >
               Scoreboard
+            </Link>
+          )}
+          {login && (
+            <Link
+              fontSize={{ base: "xs", xl: "md" }}
+              as={RouterLink}
+              to="/leaderboard"
+            >
+              Leaderboard
             </Link>
           )}
         </Flex>
         <Flex
-          w={{ base: "40%", xl: "10%" }}
+          w={{ base: "30%", xl: "10%" }}
           justify="space-between"
           align="center"
         >
@@ -71,7 +84,7 @@ export default function Navbar(){
             </Popover>
           ) : (
             <Link as={RouterLink} to="/login">
-              Login
+              Login/Signup
             </Link>
           )}
           <Circle

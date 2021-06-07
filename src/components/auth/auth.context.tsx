@@ -3,6 +3,12 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { AuthContextState, User } from "./auth.types";
+import { useNavigate } from "react-router-dom";
+import {
+  setupAuthExceptionHandler,
+  setupAuthHeaderForServiceCalls,
+  isUserloggedIn,
+} from "./auth.functions";
 
 const initialState: AuthContextState = {
   login: false,
@@ -16,20 +22,35 @@ const initialState: AuthContextState = {
 const AuthContext = createContext<AuthContextState>(initialState);
 
 export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
-  const [login, setLogin] = useState(false);
+  const navigate = useNavigate();
+
+  const [login, setLogin] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (localStorage.getItem("tcq_login")) {
-      setLogin(true);
-      setUserData(localStorage.getItem("tcq_userid"));
+    setupAuthHeaderForServiceCalls();
+    setLoginStatus();
+  }, []);
+
+  useEffect(() => {
+    if(login){
+      setUserData();
     }
   }, [login]);
 
-  async function setUserData(userId: string | null) {
+  useEffect(() => {
+    setupAuthExceptionHandler(navigate);
+  }, []);
+
+  async function setLoginStatus() {
+    const loginStatus = await isUserloggedIn();
+    loginStatus ? setLogin(true) : setLogin(false);
+  }
+
+  async function setUserData() {
     try {
       const { status, data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_BASE_URL}/user/${userId}`
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/user/userdetail`
       );
       if (status === 200) {
         setUser(data.user);
@@ -58,7 +79,7 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
       );
       if (status === 200) {
         const { data } = await axios.post(
-          `${process.env.REACT_APP_BACKEND_BASE_URL}/user/${user?._id}/add-new-score`,
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/user/add-new-score`,
           {
             scoreId: savedScoreData.savedScore._id,
           }
@@ -71,7 +92,14 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
 
   return (
     <AuthContext.Provider
-      value={{ login, user, setLogin, setUserData, saveScore, setUser }}
+      value={{
+        login,
+        user,
+        setLogin,
+        setUserData,
+        saveScore,
+        setUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -22,7 +22,8 @@ export default function quizReducer(state: QuizContextStateType, action: ACTION_
         case "SKIP_QUESTION":
             return {
                 ...state,
-                analytics: {...state.analytics, unattempted: state.analytics.unattempted + 1}
+                analytics: {...state.analytics, unattempted: state.analytics.unattempted + 1},
+                userAnswers: [...state.userAnswers, "skipped"]
             }
         case "RESET_DEFAULTS": 
             return {
@@ -39,6 +40,11 @@ export default function quizReducer(state: QuizContextStateType, action: ACTION_
             return {
                 ...state,
                 quizCategory: action.payload.category
+            }
+        case "RECORD_USER_ANSWERS": 
+            return {
+                ...state,
+                userAnswers: [...state.userAnswers, action.payload.userAnswer]
             }
         default:
             return state;

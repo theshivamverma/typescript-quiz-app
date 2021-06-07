@@ -11,13 +11,13 @@ import {
 import { useEffect, useState } from "react";
 
 import { useQuiz } from "../quiz";
+import { QuizQuestion } from "./quiz.types";
 
 export default function QuizQuestions({ setShowResults, setStartQuiz }: any) {
   const { quizState, quizDispatch } = useQuiz();
-  const { quizData, quizPoints, quizCategory, getQuizData } = quizState;
-  const quizQuestions = quizData.filter(
-    (question) => question.category === quizCategory
-  );
+  const { quizData, quizPoints, quizCategory } = quizState;
+  const [quizQuestions, setQuizQuestions] =
+    useState<QuizQuestion[] | null>(null);
 
   const centerDivBg = useColorModeValue("gray.100", "gray.700");
   const nextBtnBg = useColorModeValue("gray.700", "gray.100");
@@ -35,6 +35,13 @@ export default function QuizQuestions({ setShowResults, setStartQuiz }: any) {
   useEffect(() => {
     quizDispatch({ type: "RESET_DEFAULTS" });
   }, []);
+
+  useEffect(() => {
+    quizQuestions === null &&
+      setQuizQuestions(
+        quizData.filter((question) => question.category === quizCategory)
+      );
+  }, [quizData, quizQuestions]);
 
   useEffect(() => {
     if (timer > 0) {
@@ -62,19 +69,27 @@ export default function QuizQuestions({ setShowResults, setStartQuiz }: any) {
   }
 
   function checkForAnswer() {
-    if (optionClicked === quizQuestions[currentQuestion].correct_answer) {
-      setIsAnswerCorrect(true);
-      quizDispatch({
-        type: "INCREASE_QUIZ_SCORE",
-        payload: { point: quizQuestions[currentQuestion].point },
-      });
-    } else {
-      quizDispatch({
-        type: "DECREASE_QUIZ_SCORE",
-        payload: {
-          negativePoint: quizQuestions[currentQuestion].negativePoint,
-        },
-      });
+    quizDispatch({
+      type: "RECORD_USER_ANSWERS",
+      payload: {
+        userAnswer: optionClicked,
+      },
+    });
+    if (quizQuestions !== null && quizQuestions.length > 0) {
+      if (optionClicked === quizQuestions[currentQuestion].correct_answer) {
+        setIsAnswerCorrect(true);
+        quizDispatch({
+          type: "INCREASE_QUIZ_SCORE",
+          payload: { point: quizQuestions[currentQuestion].point },
+        });
+      } else {
+        quizDispatch({
+          type: "DECREASE_QUIZ_SCORE",
+          payload: {
+            negativePoint: quizQuestions[currentQuestion].negativePoint,
+          },
+        });
+      }
     }
   }
 
@@ -97,6 +112,7 @@ export default function QuizQuestions({ setShowResults, setStartQuiz }: any) {
       else return optionRed;
     } else {
       if (
+        quizQuestions &&
         optionClicked !== null &&
         optionClicked !== option &&
         option === quizQuestions[currentQuestion].correct_answer
@@ -114,7 +130,7 @@ export default function QuizQuestions({ setShowResults, setStartQuiz }: any) {
       p={4}
       borderRadius="lg"
     >
-      {quizQuestions.length > 0 ? (
+      {quizQuestions && quizQuestions.length > 0 ? (
         <>
           <Flex w="100%" justify="space-between">
             <Text>Question: {currentQuestion + 1}</Text>

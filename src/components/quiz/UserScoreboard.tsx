@@ -10,20 +10,22 @@ export default function UserScoreboard() {
 
   useEffect(() => {
     if (user) {
-      setUserData(`${user?._id}`);
+      setUserData();
     }
-  }, [user]);
+  }, []);
 
   return (
-    <Flex w="100%" h="90vh" justify="center" align="center" direction="column">
+    <Flex w="100%" h="90vh" justify="" align="center" direction="column">
       <Text fontSize="lg" mb="5">
         Scoreboard
       </Text>
+      {user && user?.scoreboard.length > 0 ? 
       <Table
         size="md"
         w={{ base: "90%", xl: "50%" }}
         borderRadius="xl"
         borderWidth="1px"
+        mb="4"
       >
         <Thead>
           <Tr>
@@ -32,9 +34,9 @@ export default function UserScoreboard() {
           </Tr>
         </Thead>
         <Tbody>
-          {user?.scoreboard.map((score) => {
+          {user?.scoreboard.map((score, index) => {
             return (
-              <Tr>
+              <Tr key={index}>
                 <Td>{score.quizname}</Td>
                 <Td>{`${score.score}/ ${score.outofscore}`}</Td>
               </Tr>
@@ -42,6 +44,7 @@ export default function UserScoreboard() {
           })}
         </Tbody>
       </Table>
+      : <Text fontSize="2xl">No games played</Text> }
     </Flex>
   );
 }

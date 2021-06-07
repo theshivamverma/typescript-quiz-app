@@ -7,6 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 import { useQuiz } from "../quiz";
 import { useAuth } from "../auth";
+import QuizSummary from "./QuizSummary";
 
 export default function ShowResults({ setShowResults, setShowRules }: any) {
   const centerDivBg = useColorModeValue("gray.100", "gray.700");
@@ -25,77 +26,84 @@ export default function ShowResults({ setShowResults, setShowRules }: any) {
   }, []);
 
   return (
-    <Flex
-      w={{ base: "100%", xl: "40%" }}
-      direction="column"
-      bg={centerDivBg}
-      p={4}
-      borderRadius="lg"
-    >
-      <Text textAlign="center" fontSize="xl">
-        Results
-      </Text>
+    <Flex direction="column" w="100%" h="100vh" align="center">
       <Flex
-        w="100%"
+        w={{ base: "100%", xl: "40%" }}
+        direction="column"
+        bg={centerDivBg}
         p={4}
-        justify="space-between"
-        bg={resultGreen}
-        my={2}
-        color="black"
         borderRadius="lg"
+        mt="10"
       >
-        <Text>Correct Answers: </Text>
-        <Text>{analytics.correct}</Text>
-      </Flex>
-      <Flex
-        w="100%"
-        p={4}
-        justify="space-between"
-        bg={resultRed}
-        my={2}
-        color="black"
-        borderRadius="lg"
-      >
-        <Text>Wrong Answers: </Text>
-        <Text>{analytics.wrong}</Text>
-      </Flex>
-      <Flex
-        w="100%"
-        p={4}
-        justify="space-between"
-        bg={resultYellow}
-        my={2}
-        color="black"
-        borderRadius="lg"
-      >
-        <Text>Not Attempted: </Text>
-        <Text>{analytics.unattempted}</Text>
-      </Flex>
-      <Flex
-        w="100%"
-        p={4}
-        justify="space-between"
-        bg={resultBlue}
-        my={2}
-        color="black"
-        borderRadius="lg"
-      >
-        <Text>Score: </Text>
-        <Text>{`${quizPoints}/30`}</Text>
-      </Flex>
-      <Flex w="100%" justify="space-between" align="center" my={3}>
-        <Link as={RouterLink} to="/scoreboard">
-          View Scoreboard
-        </Link>
-        <Button
-          onClick={() => {
-            setShowResults(false);
-            setShowRules(true);
-          }}
+        <Text textAlign="center" fontSize="xl">
+          Results
+        </Text>
+        <Flex
+          w="100%"
+          p={4}
+          justify="space-between"
+          bg={resultGreen}
+          my={2}
+          color="black"
+          borderRadius="lg"
         >
-          Play Again
-        </Button>
+          <Text>Correct Answers: </Text>
+          <Text>{analytics.correct}</Text>
+        </Flex>
+        <Flex
+          w="100%"
+          p={4}
+          justify="space-between"
+          bg={resultRed}
+          my={2}
+          color="black"
+          borderRadius="lg"
+        >
+          <Text>Wrong Answers: </Text>
+          <Text>{analytics.wrong}</Text>
+        </Flex>
+        <Flex
+          w="100%"
+          p={4}
+          justify="space-between"
+          bg={resultYellow}
+          my={2}
+          color="black"
+          borderRadius="lg"
+        >
+          <Text>Not Attempted: </Text>
+          <Text>{analytics.unattempted}</Text>
+        </Flex>
+        <Flex
+          w="100%"
+          p={4}
+          justify="space-between"
+          bg={resultBlue}
+          my={2}
+          color="black"
+          borderRadius="lg"
+        >
+          <Text>Score: </Text>
+          <Text>{`${quizPoints}/30`}</Text>
+        </Flex>
+        <Flex w="100%" justify="space-between" align="center" my={3}>
+          <Link as={RouterLink} to="/scoreboard">
+            View Scoreboard
+          </Link>
+          <Button
+            onClick={() => {
+              setShowResults(false);
+              setShowRules(true);
+            }}
+          >
+            Play Again
+          </Button>
+        </Flex>
       </Flex>
+      <Text fontSize="xl" mt="10">
+        Summary
+      </Text>
+      <QuizSummary />
     </Flex>
   );
 }
