@@ -25,7 +25,7 @@ export default function Signup() {
   const [passwordMessage, setpasswordMessage] = useState("")
 
   const toast = useToast();
-  const { login, setLogin, setUserData } = useAuth();
+  const { login, setLogin, setUserData, setToken } = useAuth();
 
   const navigate = useNavigate();
   const { state }: any = useLocation();
@@ -36,9 +36,10 @@ export default function Signup() {
 
   async function signupClickHandler(username: string, password: string) {
     if(usernameValid && usernameMessage === "" && passwordMessage === ""){
-      const { signupStatus } = await signup(username, password);
+      const { signupStatus, token } = await signup(username, password);
       if (signupStatus) {
         setLogin(true);
+        setToken(token);
         setUserData();
         toast({
           title: "Signup Successfull",

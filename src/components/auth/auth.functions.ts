@@ -14,44 +14,26 @@ export async function loginUser(username: string, password: string) {
       }
     );
     if (status === 200) {
-      return { loginStatus: true };
+      localStorage?.setItem("qviz_login", JSON.stringify({ isLoggedIn: true, token: data.token }))
+      return { loginStatus: true, token: data.token };
     } else {
-      return { loginStatus: false };
+      return { loginStatus: false, token: null };
     }
   } catch (error) {
     console.log(error);
-    return { loginStatus: false };
+    return { loginStatus: false, token: null };
   }
 }
 
 export async function logoutUser() {
-  try {
-    const { status, data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_BASE_URL}/auth/logout`
-    );
-  } catch (error) {
-    console.log(error);
-  }
+  localStorage.removeItem("qviz_login")
 }
 
-export async function isUserloggedIn() {
-  try {
-    const { status, data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_BASE_URL}/auth/isloggedin`
-    );
-    if (status === 200) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    console.log(error);
-    return false;
+export function setupAuthHeaderForServiceCalls(token: string | null) {
+  if (token) {
+    return (axios.defaults.headers.common["Authorization"] = `Bearer ${token}`);
   }
-}
-
-export function setupAuthHeaderForServiceCalls() {
-  axios.defaults.withCredentials = true;
+  delete axios.defaults.headers.common["Authorization"];
 }
 
 export function setupAuthExceptionHandler(navigate: NavigateFunction) {
@@ -98,14 +80,13 @@ export async function signup(username: string, password: string) {
       }
     );
     if (status === 200) {
-      return { signupStatus: true };
+      localStorage?.setItem("qviz_login", JSON.stringify({ isLoggedIn: true, token: data.token }))
+      return { signupStatus: true, token: data.token };
     } else {
-      return { signupStatus: false };
+      return { signupStatus: false, token: null };
     }
   } catch (error) {
     console.log(error);
-    return { signupStatus: false };
+    return { signupStatus: false, token: null };
   }
 }
-
-// https://typescript-quiz-app-api.herokuapp.com/api

@@ -7,12 +7,13 @@ import { useNavigate } from "react-router-dom";
 import {
   setupAuthExceptionHandler,
   setupAuthHeaderForServiceCalls,
-  isUserloggedIn,
 } from "./auth.functions";
 
 const initialState: AuthContextState = {
   login: false,
   user: null,
+  token: null,
+  setToken: () => null,
   setLogin: () => null,
   setUserData: () => null,
   saveScore: () => null,
@@ -22,15 +23,19 @@ const initialState: AuthContextState = {
 const AuthContext = createContext<AuthContextState>(initialState);
 
 export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
-  const navigate = useNavigate();
 
-  const [login, setLogin] = useState<boolean>(false);
+  const { isLoggedIn, token: storedToken } = JSON.parse(
+      localStorage?.getItem("qviz_login") ||
+        JSON.stringify({ isLoggedIn: false, token: null })
+    );
+
+  const [login, setLogin] = useState<boolean>(isLoggedIn);
+  const [token, setToken] = useState<string | null>(storedToken)
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    setupAuthHeaderForServiceCalls();
-    setLoginStatus();
-  }, []);
+  const navigate = useNavigate();
+
+  token && setupAuthHeaderForServiceCalls(token);
 
   useEffect(() => {
     if(login){
@@ -41,11 +46,6 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
   useEffect(() => {
     setupAuthExceptionHandler(navigate);
   }, []);
-
-  async function setLoginStatus() {
-    const loginStatus = await isUserloggedIn();
-    loginStatus ? setLogin(true) : setLogin(false);
-  }
 
   async function setUserData() {
     try {
@@ -95,6 +95,8 @@ export function AuthProvider({ children }: React.PropsWithChildren<{}>) {
       value={{
         login,
         user,
+        token,
+        setToken,
         setLogin,
         setUserData,
         saveScore,

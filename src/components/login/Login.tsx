@@ -22,7 +22,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const toast = useToast();
-  const { login, setLogin, setUserData } = useAuth();
+  const { login, setLogin, setUserData, setToken } = useAuth();
 
   const navigate = useNavigate();
   const { state }: any = useLocation();
@@ -30,9 +30,10 @@ export default function Login() {
   login && navigate(state !== null && state?.from ? state.from : "/");
 
   async function loginClickHandler(username: string, password: string) {
-    const { loginStatus } = await loginUser(username, password);
+    const { loginStatus, token } = await loginUser(username, password);
     if (loginStatus) {
       setLogin(true);
+      setToken(token)
       setUserData();
       toast({
         title: "Login Successfull",
