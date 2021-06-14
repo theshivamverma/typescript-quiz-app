@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { Table, Thead, Tbody, Tr, Th, Td, Flex, Text } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, Flex, Text, Spinner } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import { useAuth } from "../auth";
@@ -15,9 +15,12 @@ export default function Leaderboard() {
   useEffect(() => {
     if (user) {
       setUserData();
-      getAllScores();
     }
   }, []);
+
+  useEffect(() => {
+    getAllScores();
+  }, [])
 
   async function getAllScores() {
     try {
@@ -25,7 +28,6 @@ export default function Leaderboard() {
         `${process.env.REACT_APP_BACKEND_BASE_URL}/score`
       );
       if (status === 200) {
-        console.log(data.scoresData);
         setLeaderboardData(data.scoresData);
       }
     } catch (error) {
@@ -69,7 +71,7 @@ export default function Leaderboard() {
           </Tbody>
         </Table>
       ) : (
-        <Text fontSize="2xl">No games played</Text>
+        <Spinner />
       )}
     </Flex>
   );

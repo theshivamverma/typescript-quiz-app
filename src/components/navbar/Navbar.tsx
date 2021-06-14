@@ -55,7 +55,7 @@ export default function Navbar(){
           )}
         </Flex>
         <Flex
-          w={{ base: "30%", xl: "25%" }}
+          w={{ base: "35%", xl: "25%" }}
           justify="space-between"
           align="center"
         >
@@ -84,7 +84,7 @@ export default function Navbar(){
             </Popover>
           ) : (
             <Link as={RouterLink} to="/login">
-              Login/Signup
+              Login
             </Link>
           )}
           <Circle
