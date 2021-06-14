@@ -55,7 +55,7 @@ export default function Navbar(){
           )}
         </Flex>
         <Flex
-          w={{ base: "30%", xl: "10%" }}
+          w={{ base: "30%", xl: "25%" }}
           justify="space-between"
           align="center"
         >
@@ -66,9 +66,9 @@ export default function Navbar(){
                   <Avatar size="sm" name={user?.username} src="" />
                 </WrapItem>
               </PopoverTrigger>
-              <PopoverContent display="flex">
+              <PopoverContent display="flex" w="150px">
                 <PopoverArrow />
-                <PopoverCloseButton />
+                <PopoverCloseButton mt="3" />
                 <PopoverBody>
                   <Button
                     onClick={() => {
